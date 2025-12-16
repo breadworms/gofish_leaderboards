@@ -1,13 +1,6 @@
 <script>
-    import "../app.css";
-    import Meta from "$lib/Meta.svelte";
+    import "../../app.css";
 </script>
-
-<Meta
-    description="Leaderboards for gofish"
-    title="unofficial gofish leaderboards"
-    image="/favicon.png"
-/>
 
 <div class="mx-4 lg:mx-8 my-8 lg:ml-32 lg:mr-32">
     <header>

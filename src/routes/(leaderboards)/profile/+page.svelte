@@ -1,6 +1,7 @@
 <script lang="ts">
     import { browser } from "$app/environment";
     import { USER_MAP } from "$lib";
+    import Meta from "$lib/Meta.svelte";
     import UserProfile from "$lib/UserProfile.svelte";
 
     const urlParams = browser ? new URLSearchParams(location.search) : new URLSearchParams();
@@ -28,6 +29,10 @@
         }, 500);
     }
 </script>
+
+<Meta
+    breadcrumb={user}
+/>
 
 <label for="user_search" class="text-lg">Search user:</label>
 <input

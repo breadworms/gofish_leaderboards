@@ -3,6 +3,7 @@
     import { replaceState } from "$app/navigation";
     import { page } from "$app/stores";
     import Leaderboards from "$lib/Leaderboards.svelte";
+    import Meta from "$lib/Meta.svelte";
     import { onMount } from "svelte";
 
     let selected: string = "global";
@@ -53,6 +54,10 @@
         "xriggby"
     ];
 </script>
+
+<Meta
+    image="/favicon.png"
+/>
 
 <span>channel: </span>
 <select bind:value={selected} on:change={changeParams} on:change={storeChannel} class="mt-5 mb-5">
