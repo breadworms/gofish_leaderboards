@@ -1,0 +1,3 @@
+User-agent: *
+Content-signal: ai-train=no, search=yes, ai-input=no
+Disallow: /wrapped/

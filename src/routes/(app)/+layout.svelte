@@ -1,5 +1,5 @@
 <script>
-    import "../../app.css";
+    import "./layout.css";
 </script>
 
 <div class="mx-4 lg:mx-8 my-8 lg:ml-32 lg:mr-32">

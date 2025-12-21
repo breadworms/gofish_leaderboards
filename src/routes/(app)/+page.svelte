@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { browser } from "$app/environment";
     import { replaceState } from "$app/navigation";
     import { page } from "$app/stores";
     import Leaderboards from "$lib/Leaderboards.svelte";
