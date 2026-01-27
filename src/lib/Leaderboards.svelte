@@ -1,8 +1,12 @@
 <script lang="ts">
     import AsyncMarkdownReq from "./AsyncMarkdownReq.svelte";
 
-    /** show leaderboards belonging to this folder (channel) */
-    export let folder: string;
+    let {
+        folder
+    }: {
+        /** show leaderboards belonging to this folder (channel) */
+        folder: string;
+    } = $props();
 </script>
 
 {#if folder == "global"}

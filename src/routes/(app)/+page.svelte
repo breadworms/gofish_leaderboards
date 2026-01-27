@@ -1,12 +1,12 @@
 <script lang="ts">
     import { replaceState } from "$app/navigation";
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
     import Leaderboards from "$lib/Leaderboards.svelte";
     import Meta from "$lib/Meta.svelte";
     import { onMount } from "svelte";
 
-    let selected: string = "global";
-    let loaded = false;
+    let selected = $state("global");
+    let loaded = $state(false);
     onMount(() => {
         let stored = localStorage.getItem("channel");
         let params = new URLSearchParams(window.location.search);
@@ -18,15 +18,13 @@
         loaded = true;
     });
 
-    function changeParams(this: HTMLSelectElement) {
+    function selectChannel(this: HTMLSelectElement) {
         let url = new URL(location.href);
         let search = new URLSearchParams(location.search);
         search.set("channel", this.value);
         url.search = search.toString();
-        replaceState(url, $page.state);
-    }
+        replaceState(url, page.state);
 
-    function storeChannel(this: HTMLSelectElement) {
         localStorage.setItem("channel", this.value);
     }
 
@@ -57,10 +55,11 @@
 
 <Meta
     image="/favicon.png"
+    description="Various stats and leaderboards collected for the command-line chatbot game, GOFISH."
 />
 
 <span>channel: </span>
-<select bind:value={selected} on:change={changeParams} on:change={storeChannel} class="mt-5 mb-5">
+<select bind:value={selected} onchange={selectChannel} class="mt-5 mb-5">
     {#each channels as channel}
         <option value={channel}>{channel}</option>
     {/each}

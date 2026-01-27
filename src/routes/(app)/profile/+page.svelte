@@ -1,14 +1,15 @@
 <script lang="ts">
     import { browser } from "$app/environment";
     import { replaceState } from "$app/navigation";
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
     import { USER_MAP } from "$lib";
     import Meta from "$lib/Meta.svelte";
     import UserProfile from "$lib/UserProfile.svelte";
 
     const urlParams = browser ? new URLSearchParams(location.search) : new URLSearchParams();
-    let user = urlParams.get("user")?.toLowerCase();
-    let searchedUser = user ?? "";
+
+    let user = $state(urlParams.get("user")?.toLowerCase());
+    let searchedUser = $derived(user ?? "");
 
     async function getUserID(user: string): Promise<number | undefined> {
         return (await USER_MAP).get(user);
@@ -20,7 +21,7 @@
         let search = new URLSearchParams(location.search);
         search.set("user", user);
         url.search = search.toString();
-        replaceState(url, $page.state);
+        replaceState(url, page.state);
     }
 
     let timeout: number | undefined;
@@ -42,7 +43,7 @@
     class="bg-neutral-300 text-black p-0.5 rounded my-6"
     type="text"
     bind:value={searchedUser}
-    on:keydown={() => {
+    onkeydown={() => {
         debounce(() => {
             setUser(searchedUser);
         });

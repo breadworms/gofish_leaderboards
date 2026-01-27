@@ -4,11 +4,15 @@
     import { marked, Renderer } from "marked";
     import { slide } from "svelte/transition";
 
-    /** a direct url to a markdown file to render */
-    export let url: string;
-
-    /** whether or not links to user profiles will be included in the rendered markdown */
-    export let profileLinks = true;
+    let {
+        url,
+        profileLinks = true
+    }: {
+        /** a direct url to a markdown file to render */
+        url: string;
+        /** whether or not links to user profiles will be included in the rendered markdown */
+        profileLinks?: boolean;
+    } = $props();
 
     async function request(url: string): Promise<string> {
         let res = await fetch(url);
