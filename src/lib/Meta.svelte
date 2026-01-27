@@ -1,6 +1,6 @@
 <script lang="ts">
     let {
-        title = 'unofficial gofish leaderboards',
+        title = 'gofish leaderboards',
         description,
         breadcrumb,
         image

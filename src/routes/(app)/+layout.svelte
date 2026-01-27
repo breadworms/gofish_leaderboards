@@ -5,7 +5,7 @@
 <div class="mx-4 lg:mx-8 my-8 lg:ml-32 lg:mr-32">
     <header>
         <a href="/" class="text-inherit font-semibold">
-            <h1 class="mb-4 mt-8">unofficial gofish leaderboards! 🎣 🤩 🏆</h1>
+            <h1 class="mb-4 mt-8">(unofficial) gofish leaderboards! 🎣 🤩 🏆</h1>
         </a>
         <hr class="mb-4 mt-8" />
     </header>
