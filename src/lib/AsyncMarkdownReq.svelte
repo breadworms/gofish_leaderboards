@@ -1,8 +1,8 @@
 <script lang="ts">
     import { dev } from "$app/environment";
     import { USER_MAP } from "$lib";
-    import { marked, Renderer } from "marked";
     import { slide } from "svelte/transition";
+    import { marked, Renderer } from "marked";
 
     let {
         url,

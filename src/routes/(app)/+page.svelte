@@ -7,8 +7,9 @@
 
     let selected = $state("global");
     let loaded = $state(false);
+
     onMount(() => {
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(location.search);
         selected = params.get("channel")
             ?? localStorage.getItem("channel")
             ?? selected;

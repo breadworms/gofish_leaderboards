@@ -1,15 +1,16 @@
 <script lang="ts">
-    import { browser } from "$app/environment";
     import { replaceState } from "$app/navigation";
     import { page } from "$app/state";
     import { USER_MAP } from "$lib";
     import Meta from "$lib/Meta.svelte";
     import UserProfile from "$lib/UserProfile.svelte";
 
-    const urlParams = browser ? new URLSearchParams(location.search) : new URLSearchParams();
+    const userParam = (new URLSearchParams(location.search))
+        .get("user")
+        ?.toLowerCase();
 
-    let user = $state(urlParams.get("user")?.toLowerCase());
-    let searchedUser = $derived(user ?? "");
+    let user = $state(userParam);
+    let searchedUser = $state(userParam ?? "");
 
     async function getUserID(user: string): Promise<number | undefined> {
         return (await USER_MAP).get(user);
