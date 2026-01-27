@@ -8,13 +8,10 @@
     let selected = $state("global");
     let loaded = $state(false);
     onMount(() => {
-        let stored = localStorage.getItem("channel");
-        let params = new URLSearchParams(window.location.search);
-        if (params.has("channel")) {
-            selected = params.get("channel") as string;
-        } else {
-            selected = stored === null ? selected : (stored as string);
-        }
+        const params = new URLSearchParams(window.location.search);
+        selected = params.get("channel")
+            ?? localStorage.getItem("channel")
+            ?? selected;
         loaded = true;
     });
 
