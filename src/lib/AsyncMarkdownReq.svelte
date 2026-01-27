@@ -57,7 +57,7 @@
 {#await Promise.all([request(url), markedRenderer])}
     <div>Loading...</div>
 {:then [resp, renderer]}
-    <div transition:slide={{ duration: 250 }}>
+    <div in:slide={{ duration: 250 }}>
         {@html marked.parse(resp, { renderer })}
     </div>
 {:catch e}
