@@ -19,9 +19,10 @@
     });
 
     function changeParams(this: HTMLSelectElement) {
-        let params = new URLSearchParams(window.location.search);
-        params.set("channel", this.value);
-        let url = window.location.pathname + "?" + String(params);
+        let url = new URL(location.href);
+        let search = new URLSearchParams(location.search);
+        search.set("channel", this.value);
+        url.search = search.toString();
         replaceState(url, $page.state);
     }
 

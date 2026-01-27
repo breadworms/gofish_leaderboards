@@ -1,5 +1,7 @@
 <script lang="ts">
     import { browser } from "$app/environment";
+    import { replaceState } from "$app/navigation";
+    import { page } from "$app/stores";
     import { USER_MAP } from "$lib";
     import Meta from "$lib/Meta.svelte";
     import UserProfile from "$lib/UserProfile.svelte";
@@ -16,9 +18,9 @@
         user = value.toLowerCase();
         let url = new URL(location.href);
         let search = new URLSearchParams(location.search);
-        search.set("user", value.toLowerCase());
+        search.set("user", user);
         url.search = search.toString();
-        window.history.replaceState(null, "", url);
+        replaceState(url, $page.state);
     }
 
     let timeout: number | undefined;

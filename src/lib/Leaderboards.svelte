@@ -1,6 +1,7 @@
 <script lang="ts">
     import AsyncMarkdownReq from "./AsyncMarkdownReq.svelte";
 
+    /** show leaderboards belonging to this folder (channel) */
     export let folder: string;
 </script>
 
