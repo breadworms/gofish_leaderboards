@@ -1,5 +1,7 @@
 <script>
     import "./layout.css";
+
+    let { children } = $props();
 </script>
 
 <div class="mx-4 lg:mx-8 my-8 lg:ml-32 lg:mr-32">
@@ -10,7 +12,7 @@
         <hr class="mb-4 mt-8" />
     </header>
     <main>
-        <slot />
+        {@render children()}
     </main>
     <footer class="mb-12 mt-32">
         <p>

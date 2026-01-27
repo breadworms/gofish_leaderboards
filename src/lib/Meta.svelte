@@ -1,10 +1,5 @@
 <script lang="ts">
-    let {
-        title = 'gofish leaderboards',
-        description,
-        breadcrumb,
-        image
-    }: {
+    interface Props {
         /** applies both `<title>` and `<meta name="twitter:title">` */
         title?: string;
         /** description shown on embedded cards */
@@ -17,7 +12,14 @@
          * must be a URL to static image, preferably a .png or .jpeg
          */
         image?: string;
-    } = $props();
+    }
+
+    let {
+        title = "gofish leaderboards",
+        description,
+        breadcrumb,
+        image
+    }: Props = $props();
 </script>
 
 <!--

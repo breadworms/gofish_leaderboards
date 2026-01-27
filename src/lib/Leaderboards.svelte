@@ -1,12 +1,12 @@
 <script lang="ts">
     import AsyncMarkdownReq from "./AsyncMarkdownReq.svelte";
 
-    let {
-        folder
-    }: {
+    interface Props {
         /** show leaderboards belonging to this folder (channel) */
         folder: string;
-    } = $props();
+    }
+
+    let { folder }: Props = $props();
 </script>
 
 {#if folder == "global"}

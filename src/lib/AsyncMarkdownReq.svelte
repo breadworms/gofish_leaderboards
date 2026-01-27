@@ -4,15 +4,14 @@
     import { slide } from "svelte/transition";
     import { marked, Renderer } from "marked";
 
-    let {
-        url,
-        profileLinks = true
-    }: {
+    interface Props {
         /** a direct url to a markdown file to render */
         url: string;
         /** whether or not links to user profiles will be included in the rendered markdown */
         profileLinks?: boolean;
-    } = $props();
+    }
+
+    let { url, profileLinks = true }: Props = $props();
 
     async function request(url: string): Promise<string> {
         let res = await fetch(url);
@@ -23,8 +22,7 @@
             }
             throw err;
         }
-        let md = await res.text();
-        return md;
+        return res.text();
     }
 
     let markedRenderer = USER_MAP.then((map) => {
@@ -33,7 +31,7 @@
         // TailwindCSS makes img elements have display: block for *some* reason so
         // this fixes it in this very specific instance ehehe
         renderer.image = function(href, title, text) {
-            return `<img src=${href} title=${title ?? text} alt=${text} style="display: inline-block; max-width: none;" />`;
+            return `<img src="${href}" title="${title ?? text}" alt="${text}" style="display: inline-block; max-width: none;" />`;
         };
 
         if (profileLinks) {

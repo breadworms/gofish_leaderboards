@@ -1,11 +1,7 @@
 <script lang="ts">
     import AsyncMarkdownReq from "./AsyncMarkdownReq.svelte";
 
-    let {
-        id
-    }: {
-        id: string | number
-    } = $props();
+    let { id }: { id: string | number } = $props();
 </script>
 
 <AsyncMarkdownReq
