@@ -12,6 +12,7 @@
         "format": "prettier --write ."
     },
     "dependencies": {
+        "@twemoji/api": "^17.0.2",
         "marked": "^12.0.2"
     },
     "devDependencies": {

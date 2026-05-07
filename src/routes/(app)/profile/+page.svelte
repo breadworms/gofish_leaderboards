@@ -20,9 +20,7 @@
     function setUser(value: string) {
         user = value.toLowerCase();
         let url = new URL(location.href);
-        let search = new URLSearchParams(location.search);
-        search.set("user", user);
-        url.search = search.toString();
+        url.searchParams.set("user", user);
         replaceState(url, page.state);
     }
 

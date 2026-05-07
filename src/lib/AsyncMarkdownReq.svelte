@@ -14,7 +14,7 @@
     let { url, profileLinks = true }: Props = $props();
 
     async function request(url: string): Promise<string> {
-        let res = await fetch(url);
+        const res = await fetch(url);
         if (!res.ok) {
             let err = new Error(`request to ${url} failed: ${res.status}`);
             if (dev) {
