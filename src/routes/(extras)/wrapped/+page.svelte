@@ -2,14 +2,31 @@
     import "../../../extras.css";
     import { page } from "$app/state";
     import Meta from "$lib/Meta.svelte";
-    import Wrapped from "$lib/extras/Wrapped.svelte";
-    import IntroductionSummary from "$lib/extras/IntroductionSummary.svelte";
-    import SizeSummary from "$lib/extras/SizeSummary.svelte";
-    import FrequencySummary from "$lib/extras/FrequencySummary.svelte";
-    import RaritySummary from "$lib/extras/RaritySummary.svelte";
-    import GeneralSummary from "$lib/extras/GeneralSummary.svelte";
-    import ClosingSummary from "$lib/extras/ClosingSummary.svelte";
-    import { fishToImage, type Wrapped2025User } from "$lib";
+    import Wrapped from "$lib/Wrapped.svelte";
+    import IntroductionSummary from "$lib/IntroductionSummary.svelte";
+    import SizeSummary from "$lib/SizeSummary.svelte";
+    import FrequencySummary from "$lib/FrequencySummary.svelte";
+    import RaritySummary from "$lib/RaritySummary.svelte";
+    import GeneralSummary from "$lib/GeneralSummary.svelte";
+    import ClosingSummary from "$lib/ClosingSummary.svelte";
+    import type { Wrapped2025User } from "$lib";
+    import twemoji from "@twemoji/api";
+
+    // mimic twemoji img tags here (kinda dumb)
+    const shinies: Record<string, string> = {
+        "DarkMode": `<img class="fish" draggable="false" alt="DarkMode" src="https://static-cdn.jtvnw.net/emoticons/v2/461298/default/dark/3.0" />`,
+        "SabaPing": `<img class="fish" draggable="false" alt="SabaPing" src="https://static-cdn.jtvnw.net/emoticons/v2/160402/default/dark/3.0" />`,
+        "OSFrog": `<img class="fish" draggable="false" alt="OSFrog" src="https://static-cdn.jtvnw.net/emoticons/v2/81248/default/dark/3.0" />`,
+        "HailHelix": `<img class="fish" draggable="false" alt="HailHelix" src="https://cdn.betterttv.net/emote/54fa90f201e468494b85b545/3x.webp" />`
+    };
+
+    function fishToImage(fish: string) {
+        const emote = fish.split(" ")[0];
+
+        return shinies.hasOwnProperty(emote)
+            ? shinies[emote]
+            : twemoji.parse(emote, { className: "fish" });
+    }
 
     async function getData() {
         const id = page.url.searchParams.get("id");
@@ -21,10 +38,10 @@
 
         const raw = await res.json();
 
-        const data = {
+        return {
             name: raw["Name"] as string,
-            startDate: (new Date(`${raw["Year"]}-04-20`)).getTime(),
-            endDate: (new Date(`${Number(raw["Year"]) + 1}-04-20`)).getTime(),
+            startDate: new Date(`${raw["Year"]}-04-20 00:00:00 UTC`),
+            endDate: new Date(`${Number(raw["Year"]) + 1}-04-20 00:00:00 UTC`),
             fishSeenCount: raw["FishSeenCount"],
             fishSeenPercentile: Math.round(100 - raw["FishSeenPercentile"]),
             caughtCount: raw["Count"]["Total"],
@@ -46,25 +63,23 @@
                 })).sort((a, b) => b.timeSpentPercentage - a.timeSpentPercentage)
             })).sort((a, b) => b.missCount - a.missCount),
             sizeTopFive: (raw["BiggestFish"] as any[]).map(rawSize => ({
-                fish: fishToImage(rawSize["Fish"]),
+                image: fishToImage(rawSize["Fish"]),
                 weight: rawSize["Weight in lbs"],
                 catchType: rawSize["Catchtype"].toLowerCase(),
-                catchDate: (new Date(rawSize["Date"])).getTime(),
+                catchDate: new Date(rawSize["Date"]),
                 rank: rawSize["Rank"],
                 rankAllTime: rawSize["RankAllTime"]
             })),
             frequencyTopFive: (raw["MostCaughtFish"] as any[]).map(rawFrequency => ({
-                fish: fishToImage(rawFrequency["Fish"]),
+                image: fishToImage(rawFrequency["Fish"]),
                 count: rawFrequency["Count"]
             })),
             rarityTopFive: (raw["RarestFish"] as any[]).map(rawRarest => ({
-                fish: fishToImage(rawRarest["Fish"]),
+                image: fishToImage(rawRarest["Fish"]),
                 countGlobal: rawRarest["CountYear"],
                 countGlobalAllTime: rawRarest["CountAllTime"]
             }))
         } as Wrapped2025User;
-
-        return data;
     }
 </script>
 

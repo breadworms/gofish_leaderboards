@@ -3,6 +3,7 @@
     import { USER_MAP } from "$lib";
     import { slide } from "svelte/transition";
     import { marked, Renderer } from "marked";
+    import twemoji from "@twemoji/api";
 
     interface Props {
         /** a direct url to a markdown file to render */
@@ -28,11 +29,7 @@
     let markedRenderer = USER_MAP.then((map) => {
         const renderer = new Renderer();
 
-        // TailwindCSS makes img elements have display: block for *some* reason so
-        // this fixes it in this very specific instance ehehe
-        renderer.image = function(href, title, text) {
-            return `<img src="${href}" title="${title ?? text}" alt="${text}" style="display: inline-block; max-width: none;" />`;
-        };
+        renderer.text = twemoji.parse;
 
         if (profileLinks) {
             renderer.tablecell = function(content, flags) {

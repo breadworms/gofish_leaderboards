@@ -87,4 +87,12 @@
 
         display: inline list-item;
     }
+
+    table img {
+        @apply inline-block max-w-6.25;
+    }
+
+    img.emoji {
+        @apply max-w-[1.375em];
+    }
 }

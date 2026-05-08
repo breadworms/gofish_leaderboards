@@ -14,6 +14,6 @@
 </p>
 <p>
     {#each data.sizeTopFive as fish, index}
-        {index + 1}: {@html fish.fish} {fish.weight} lbs! <br>
+        {index + 1}: {@html fish.image} {fish.weight} lbs! <br>
     {/each}
 </p>
