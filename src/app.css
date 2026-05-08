@@ -93,6 +93,6 @@
     }
 
     img.emoji {
-        @apply max-w-[1.375em];
+        @apply inline-block max-w-[1.375em];
     }
 }
