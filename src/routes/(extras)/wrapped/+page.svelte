@@ -2,83 +2,25 @@
     import "../../../extras.css";
     import { page } from "$app/state";
     import Meta from "$lib/Meta.svelte";
-    import Wrapped, { type WrappedUser } from "$lib/2025/Wrapped.svelte";
+    import type { WrappedUser } from "$lib/2025/preprocess";
+    import Wrapped from "$lib/2025/Wrapped.svelte";
     import IntroductionSummary from "$lib/2025/IntroductionSummary.svelte";
     import SizeSummary from "$lib/2025/SizeSummary.svelte";
     import FrequencySummary from "$lib/2025/FrequencySummary.svelte";
     import RaritySummary from "$lib/2025/RaritySummary.svelte";
     import GeneralSummary from "$lib/2025/GeneralSummary.svelte";
     import ClosingSummary from "$lib/2025/ClosingSummary.svelte";
-    import twemoji from "@twemoji/api";
+    import { dev } from "$app/environment";
 
-    // mimic twemoji img tags here (kinda dumb)
-    const shinies: Record<string, string> = {
-        "DarkMode": `<img class="fish" draggable="false" alt="DarkMode" src="https://static-cdn.jtvnw.net/emoticons/v2/461298/default/dark/3.0" />`,
-        "SabaPing": `<img class="fish" draggable="false" alt="SabaPing" src="https://static-cdn.jtvnw.net/emoticons/v2/160402/default/dark/3.0" />`,
-        "OSFrog": `<img class="fish" draggable="false" alt="OSFrog" src="https://static-cdn.jtvnw.net/emoticons/v2/81248/default/dark/3.0" />`,
-        "HailHelix": `<img class="fish" draggable="false" alt="HailHelix" src="https://cdn.betterttv.net/emote/54fa90f201e468494b85b545/3x.webp" />`
-    };
-
-    function fishToImage(fish: string) {
-        const emote = fish.split(" ")[0];
-
-        return shinies.hasOwnProperty(emote)
-            ? shinies[emote]
-            : twemoji.parse(emote, { className: "fish" });
-    }
-
-    async function getData() {
+    async function getData(): Promise<WrappedUser> {
         const id = page.url.searchParams.get("id");
-        const res = await fetch(`/wrappeds_2025/${id}.json`);
+        const res = await fetch(`https://data.gofish.lol/wrapped/2025/${id}.json`);
 
         if (!res.ok) {
             throw new Error(res.status.toString());
         }
 
-        const raw = await res.json();
-
-        return {
-            name: raw["Name"] as string,
-            startDate: new Date(`${raw["Year"]}-04-20 00:00:00 UTC`),
-            endDate: new Date(`${Number(raw["Year"]) + 1}-04-20 00:00:00 UTC`),
-            fishSeenCount: raw["FishSeenCount"],
-            fishSeenPercentile: Math.round(100 - raw["FishSeenPercentile"]),
-            caughtCount: raw["Count"]["Total"],
-            caughtPercentile: Math.round(100 - raw["Count"]["Percentile"]),
-            chats: Object.entries(raw["Count"]["ChatCounts"]).map(([chat, rawChat]: [string, any]) => ({
-                chat,
-                caughtCount: rawChat["Total"],
-                caughtPercentile: Math.round(100 - rawChat["Percentile"]),
-                timeSpentPercentage: Math.round(rawChat["Percentage"])
-            })).sort((a, b) => b.caughtCount - a.caughtCount),
-            locations: Object.entries(raw["FishLocations"]).map(([location, rawLocation]: [string, any]) => ({
-                location,
-                missCount: rawLocation["Count"],
-                missPercentile: Math.round(100 - rawLocation["Percentile"]),
-                timeSpentPercentage: Math.round(rawLocation["Percentage"]),
-                weather: (rawLocation["Ambiences"] as any[]).map(rawWeather => ({
-                    ambiance: rawWeather["Ambience"],
-                    timeSpentPercentage: Math.round(rawWeather["Percentage"])
-                })).sort((a, b) => b.timeSpentPercentage - a.timeSpentPercentage)
-            })).sort((a, b) => b.missCount - a.missCount),
-            sizeTopFive: (raw["BiggestFish"] as any[]).map(rawSize => ({
-                image: fishToImage(rawSize["Fish"]),
-                weight: rawSize["Weight in lbs"],
-                catchType: rawSize["Catchtype"].toLowerCase(),
-                catchDate: new Date(rawSize["Date"]),
-                rank: rawSize["Rank"],
-                rankAllTime: rawSize["RankAllTime"]
-            })),
-            frequencyTopFive: (raw["MostCaughtFish"] as any[]).map(rawFrequency => ({
-                image: fishToImage(rawFrequency["Fish"]),
-                count: rawFrequency["Count"]
-            })),
-            rarityTopFive: (raw["RarestFish"] as any[]).map(rawRarest => ({
-                image: fishToImage(rawRarest["Fish"]),
-                countGlobal: rawRarest["CountYear"],
-                countGlobalAllTime: rawRarest["CountAllTime"]
-            }))
-        } as WrappedUser;
+        return res.json();
     }
 </script>
 
@@ -102,6 +44,10 @@
         general: GeneralSummary,
         closing: ClosingSummary
     }} />
-{:catch}
-    <div>No user found.</div>
+{:catch e}
+    {#if dev}
+        <div class="text-red-400">{e}</div>
+    {:else}
+        <div>No user found.</div>
+    {/if}
 {/await}

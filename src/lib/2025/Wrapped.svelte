@@ -1,49 +1,7 @@
 <script lang="ts">
     import type { Component } from "svelte";
+    import type { WrappedUser } from "./preprocess";
     import ParticleOverlay from "$lib/ParticleOverlay.svelte";
-
-    export interface WrappedUser {
-        name: string;
-        startDate: Date;
-        endDate: Date;
-        fishSeenCount: number;
-        fishSeenPercentile: number;
-        caughtCount: number;
-        caughtPercentile: number;
-        chats: {
-            chat: string;
-            caughtCount: number;
-            caughtPercentile: number;
-            timeSpentPercentage: number;
-        }[];
-        locations: {
-            location: "acornpond" | "big" | "docks",
-            missCount: number,
-            missPercentile: number,
-            timeSpentPercentage: number,
-            weather: {
-                ambiance: string,
-                timeSpentPercentage: number
-            }[]
-        }[];
-        sizeTopFive: {
-            image: string,
-            weight: number,
-            catchType: "normal",
-            catchDate: Date,
-            rank: number,
-            rankAllTime: number
-        }[];
-        frequencyTopFive: {
-            image: string,
-            count: number
-        }[];
-        rarityTopFive: {
-            image: string,
-            countGlobal: number,
-            countGlobalAllTime: number
-        }[];
-    }
 
     interface Props {
         data: WrappedUser;

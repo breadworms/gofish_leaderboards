@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { WrappedUser } from "./Wrapped.svelte";
+    import type { WrappedUser } from "./preprocess";
 
     interface Props {
         data: WrappedUser;
