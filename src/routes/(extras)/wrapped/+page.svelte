@@ -2,14 +2,13 @@
     import "../../../extras.css";
     import { page } from "$app/state";
     import Meta from "$lib/Meta.svelte";
-    import Wrapped from "$lib/Wrapped.svelte";
-    import IntroductionSummary from "$lib/IntroductionSummary.svelte";
-    import SizeSummary from "$lib/SizeSummary.svelte";
-    import FrequencySummary from "$lib/FrequencySummary.svelte";
-    import RaritySummary from "$lib/RaritySummary.svelte";
-    import GeneralSummary from "$lib/GeneralSummary.svelte";
-    import ClosingSummary from "$lib/ClosingSummary.svelte";
-    import type { Wrapped2025User } from "$lib";
+    import Wrapped, { type WrappedUser } from "$lib/2025/Wrapped.svelte";
+    import IntroductionSummary from "$lib/2025/IntroductionSummary.svelte";
+    import SizeSummary from "$lib/2025/SizeSummary.svelte";
+    import FrequencySummary from "$lib/2025/FrequencySummary.svelte";
+    import RaritySummary from "$lib/2025/RaritySummary.svelte";
+    import GeneralSummary from "$lib/2025/GeneralSummary.svelte";
+    import ClosingSummary from "$lib/2025/ClosingSummary.svelte";
     import twemoji from "@twemoji/api";
 
     // mimic twemoji img tags here (kinda dumb)
@@ -79,7 +78,7 @@
                 countGlobal: rawRarest["CountYear"],
                 countGlobalAllTime: rawRarest["CountAllTime"]
             }))
-        } as Wrapped2025User;
+        } as WrappedUser;
     }
 </script>
 

@@ -1,13 +1,13 @@
 <script lang="ts">
-    import type { Wrapped2025User } from "$lib";
+    import type { WrappedUser } from "./Wrapped.svelte";
 
     interface Props {
-        data: Wrapped2025User;
+        data: WrappedUser;
     }
 
     let { data }: Props = $props();
 </script>
 
 <div>
-    common fish
+    biggest fish
 </div>
