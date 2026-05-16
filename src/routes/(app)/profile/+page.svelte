@@ -1,11 +1,17 @@
 <script lang="ts">
     import { browser } from "$app/environment";
+    import { replaceState } from "$app/navigation";
+    import { page } from "$app/state";
     import { USER_MAP } from "$lib";
+    import Meta from "$lib/Meta.svelte";
     import UserProfile from "$lib/UserProfile.svelte";
 
-    const urlParams = browser ? new URLSearchParams(location.search) : new URLSearchParams();
-    let user = urlParams.get("user")?.toLowerCase();
-    let searchedUser = user ?? "";
+    const userParam = browser
+        ? (new URLSearchParams(location.search)).get("user")?.toLowerCase()
+        : undefined;
+
+    let user = $state(userParam);
+    let searchedUser = $state(userParam ?? "");
 
     async function getUserID(user: string): Promise<number | undefined> {
         return (await USER_MAP).get(user);
@@ -14,10 +20,8 @@
     function setUser(value: string) {
         user = value.toLowerCase();
         let url = new URL(location.href);
-        let search = new URLSearchParams(location.search);
-        search.set("user", value.toLowerCase());
-        url.search = search.toString();
-        window.history.replaceState(null, "", url);
+        url.searchParams.set("user", user);
+        replaceState(url, page.state);
     }
 
     let timeout: number | undefined;
@@ -29,13 +33,17 @@
     }
 </script>
 
+<Meta
+    breadcrumb={user}
+/>
+
 <label for="user_search" class="text-lg">Search user:</label>
 <input
     id="user_search"
     class="bg-neutral-300 text-black p-0.5 rounded my-6"
     type="text"
     bind:value={searchedUser}
-    on:keydown={() => {
+    onkeydown={() => {
         debounce(() => {
             setUser(searchedUser);
         });

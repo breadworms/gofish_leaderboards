@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
     :root {
@@ -52,7 +50,7 @@
     }
 
     table {
-        @apply max-h-[50rem] overflow-y-scroll block max-w-fit whitespace-nowrap;
+        @apply max-h-200 overflow-y-scroll block max-w-fit whitespace-nowrap;
         @apply rounded-xl border border-neutral-500;
     }
 
@@ -88,5 +86,13 @@
         @apply p-1 bg-transparent;
 
         display: inline list-item;
+    }
+
+    table img {
+        @apply inline-block max-w-6.25;
+    }
+
+    img.emoji {
+        @apply inline-block max-w-[1.375em];
     }
 }

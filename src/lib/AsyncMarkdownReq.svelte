@@ -1,13 +1,21 @@
 <script lang="ts">
     import { dev } from "$app/environment";
     import { USER_MAP } from "$lib";
-    import { marked, type Renderer } from "marked";
     import { slide } from "svelte/transition";
+    import { marked, Renderer } from "marked";
+    import twemoji from "@twemoji/api";
 
-    export let url: string;
+    interface Props {
+        /** a direct url to a markdown file to render */
+        url: string;
+        /** whether or not links to user profiles will be included in the rendered markdown */
+        profileLinks?: boolean;
+    }
+
+    let { url, profileLinks = true }: Props = $props();
 
     async function request(url: string): Promise<string> {
-        let res = await fetch(url);
+        const res = await fetch(url);
         if (!res.ok) {
             let err = new Error(`request to ${url} failed: ${res.status}`);
             if (dev) {
@@ -15,18 +23,16 @@
             }
             throw err;
         }
-        let md = await res.text();
-        return md;
+        return res.text();
     }
 
-    let markedSetting = USER_MAP.then((map) => {
-        // TailwindCSS makes img elements have display: block for *some* reason so
-        // this fixes it in this very specific instance ehehe
-        const imgFixer: Partial<Renderer> = {
-            image(href, title, text) {
-                return `<img src=${href} title=${title ?? text} alt=${text} style="display: inline-block; max-width: none;" />`;
-            },
-            tablecell(content, flags) {
+    let markedRenderer = USER_MAP.then((map) => {
+        const renderer = new Renderer();
+
+        renderer.text = twemoji.parse;
+
+        if (profileLinks) {
+            renderer.tablecell = function(content, flags) {
                 // TODO: modify the html
                 // const parser = new DOMParser()
                 // const doc = parser.parseFromString(content, "text/html")
@@ -37,17 +43,17 @@
                 }
                 return `<${elem}>${content}</${elem}>`;
             }
-        };
+        }
 
-        marked.use({ renderer: imgFixer });
+        return renderer;
     });
 </script>
 
-{#await Promise.all([request(url), markedSetting])}
+{#await Promise.all([request(url), markedRenderer])}
     <div>Loading...</div>
-{:then [resp, _]}
-    <div transition:slide={{ duration: 250 }}>
-        {@html marked.parse(resp)}
+{:then [resp, renderer]}
+    <div in:slide={{ duration: 250 }}>
+        {@html marked.parse(resp, { renderer })}
     </div>
 {:catch e}
     {#if dev}

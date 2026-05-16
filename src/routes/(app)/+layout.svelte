@@ -1,23 +1,18 @@
 <script>
-    import "../app.css";
-    import Meta from "$lib/Meta.svelte";
-</script>
+    import "../../app.css";
 
-<Meta
-    description="Leaderboards for gofish"
-    title="unofficial gofish leaderboards"
-    image="/favicon.png"
-/>
+    let { children } = $props();
+</script>
 
 <div class="mx-4 lg:mx-8 my-8 lg:ml-32 lg:mr-32">
     <header>
         <a href="/" class="text-inherit font-semibold">
-            <h1 class="mb-4 mt-8">unofficial gofish leaderboards! 🎣 🤩 🏆</h1>
+            <h1 class="mb-4 mt-8">(unofficial) gofish leaderboards! 🎣 🤩 🏆</h1>
         </a>
         <hr class="mb-4 mt-8" />
     </header>
     <main>
-        <slot />
+        {@render children()}
     </main>
     <footer class="mb-12 mt-32">
         <p>
