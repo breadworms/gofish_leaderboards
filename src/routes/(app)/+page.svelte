@@ -29,8 +29,11 @@
     /** only those which have individual leadeboards */
     const channels = [
         "global",
+        "aaurie",
         "aquaismissing",
         "breadworms",
+        "brogboi",
+        "buhl00n",
         "coolishdanker",
         "d_egree",
         "dizzy",
@@ -38,7 +41,7 @@
         "jellyuh",
         "julialuxel",
         "mowogan",
-        "ovrht",
+        "overhatecore",
         "omie",
         "pokirule",
         "psp1g",
