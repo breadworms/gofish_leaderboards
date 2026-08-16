@@ -41,7 +41,7 @@
         "jellyuh",
         "julialuxel",
         "mowogan",
-        "overhatecore",
+        "ovrhtcd",
         "omie",
         "pokirule",
         "psp1g",
